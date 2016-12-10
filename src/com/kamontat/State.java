@@ -17,7 +17,7 @@ public class State {
 	
 	static Map map;
 	
-	Direction direction;
+	Direction direction = STAND;
 	Pointer currentPosition; // {row, column}
 	
 	State(Pointer cp) {
@@ -55,11 +55,13 @@ public class State {
 	}
 	
 	public int getId() {
-		return currentPosition.encode();
+		return (currentPosition.encode() * 10) + direction.code;
 	}
 	
 	public static State createFromId(int id) {
-		return new State(Pointer.decode(id));
+		State state = new State(Pointer.decode(id / 10));
+		state.direction = Direction.by(id % 10);
+		return state;
 	}
 	
 	List<State> getNextStates() {

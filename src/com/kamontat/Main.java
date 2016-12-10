@@ -45,7 +45,11 @@ public class Main {
 		
 		int v = finalState.getId();
 		
-		while (true) {
+		Scanner input = new Scanner(System.in);
+		
+		int a = input.nextInt();
+		
+		while (a != -1) {
 			State s = State.createFromId(v);
 			System.out.println(s);
 			System.out.println(v);
@@ -55,8 +59,10 @@ public class Main {
 			if (v == -1) {
 				break;
 			}
+			
+			State.map.print();
+			a = input.nextInt();
 		}
-		State.map.print();
 	}
 	
 	private static void breadthFirstSearch(int s) {
@@ -69,7 +75,7 @@ public class Main {
 		
 		nextLevel.add(s);
 		
-		parents[s] = graph.getAdjList(s).get(0);
+		parents[s] = State.createFromId(s).getNextStates().get(0).getId();
 		
 		while (!nextLevel.isEmpty()) {
 			List<Integer> currentLevel = nextLevel;
@@ -78,8 +84,9 @@ public class Main {
 			for (int u : currentLevel) {
 				for (int possibleWay : graph.getAdjList(u)) {
 					if (parents[possibleWay] == -1) {
+						parents[possibleWay] = parents[u];
 						parents[u] = possibleWay;
-						System.out.println("index: " + u + ", value: " + possibleWay);
+						//						System.out.println("index: " + u + ", value: " + possibleWay);
 						nextLevel.add(possibleWay);
 					}
 				}
@@ -88,12 +95,14 @@ public class Main {
 	}
 	
 	private static void buildGraph() {
-		graph = new Graph(4041);
-		for (int i = 0; i < 4041; i++) {
+		int size = 40405;
+		graph = new Graph(size);
+		for (int i = 0; i < size; i++) {
 			State s = State.createFromId(i);
 			if (s.isValidState() && s.isOk()) {
 				List<State> nextStates = s.getNextStates();
 				for (State ns : nextStates) {
+					System.out.println("index: " + i + ", value: " + ns.getId());
 					// i -> current position
 					// j -> next position
 					graph.addArc(i, ns.getId()/* j */);
@@ -121,6 +130,7 @@ public class Main {
 			}
 			
 			State.map = new Map(temp);
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

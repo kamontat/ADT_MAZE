@@ -36,7 +36,7 @@ class Map {
 	}
 	
 	boolean canWalk(Pointer cp) {
-		return map[cp.row][cp.column] == MapKey.EMPTY.code || map[cp.row][cp.column] == MapKey.STOP.code || map[cp.row][cp.column] == MapKey.START.code;
+		return map[cp.row][cp.column] == MapKey.EMPTY.code;
 	}
 	
 	int row() {
@@ -48,7 +48,7 @@ class Map {
 	}
 	
 	void walk(Pointer cp, Direction dir) {
-		if (map[cp.row][cp.column] != MapKey.STOP.code && map[cp.row][cp.column] != MapKey.START.code) {
+		if (map[cp.row][cp.column] != MapKey.STOP.code && map[cp.row][cp.column] != MapKey.START.code && dir != Direction.STAND) {
 			System.out.println("MOVE");
 			map[cp.row][cp.column] = dir.code;
 		}
