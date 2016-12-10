@@ -36,7 +36,7 @@ class Map {
 	}
 	
 	boolean canWalk(Pointer cp) {
-		return map[cp.row][cp.column] == MapKey.EMPTY.code;
+		return map[cp.row][cp.column] == MapKey.EMPTY.code || map[cp.row][cp.column] == MapKey.STOP.code || map[cp.row][cp.column] == MapKey.START.code;
 	}
 	
 	int row() {
@@ -55,9 +55,18 @@ class Map {
 	}
 	
 	void print() {
+		int i = 0;
+		
+		String a = "   ";
+		for (i = 0; i < column(); i++) {
+			a += String.format("%-3d", i);
+		}
+		i = 0;
+		System.out.println(a);
 		for (int[] m : map) {
+			System.out.print(String.format("%-3d", i++));
 			for (int n : m) {
-				System.out.print(MapKey.getKey(n));
+				System.out.print(MapKey.getKey(n) + "  ");
 			}
 			System.out.println();
 		}
