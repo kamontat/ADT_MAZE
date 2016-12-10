@@ -6,7 +6,7 @@ package com.kamontat;
  * @since 12/11/2016 AD - 12:14 AM
  */
 public enum Direction {
-	MOVE_UP(11), MOVE_DOWN(12), MOVE_LEFT(13), MOVE_RIGHT(14);
+	MOVE_UP(1), MOVE_DOWN(2), MOVE_LEFT(3), MOVE_RIGHT(4);
 	
 	int code;
 	
