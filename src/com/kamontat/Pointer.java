@@ -15,11 +15,30 @@ public class Pointer {
 	}
 	
 	int encode() {
-		return row * 10 + column;
+		return Integer.parseInt(String.format("%02d%02d", row, column));
 	}
 	
 	static Pointer decode(int code) {
-		return new Pointer(code / 10, code % 10);
+		int r = 0, c = 0;
+		if (String.valueOf(code).length() == 4) {
+			r = Integer.parseInt(String.valueOf(code).substring(0, 2));
+			c = Integer.parseInt(String.valueOf(code).substring(2, 4));
+		} else if (String.valueOf(code).length() == 3) {
+			r = Integer.parseInt(String.valueOf(code).substring(0, 1));
+			c = Integer.parseInt(String.valueOf(code).substring(1, 3));
+		} else {
+			return new Pointer(0, 0);
+		}
+		
+		return new Pointer(r, c);
+	}
+	
+	int move(Pointer next) {
+		if (next.row < row && next.column == column) return State.UP;
+		if (next.row > row && next.column == column) return State.DOWN;
+		if (next.row == row && next.column < column) return State.LEFT;
+		if (next.row == row && next.column > column) return State.RIGHT;
+		return 0;
 	}
 	
 	@Override

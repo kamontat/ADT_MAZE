@@ -23,6 +23,10 @@ public class Graph {
 		}
 	}
 	
+	/**
+	 * vertex
+	 * @return
+	 */
 	public int getN() {
 		return n;
 	}

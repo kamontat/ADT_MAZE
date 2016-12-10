@@ -6,15 +6,7 @@ package com.kamontat;
  * @since 12/10/2016 AD - 1:31 PM
  */
 public enum MapKey {
-	START(1, "O"),
-	WALL(2, "#"),
-	EMPTY(3, "."),
-	STOP(4, "X"),
-	MOVE_UP(11, "^"),
-	MOVE_DOWN(12, "v"),
-	MOVE_LEFT(13, "<"),
-	MOVE_RIGHT(14, ">"),
-	NULL(-1, "");
+	START(1, "O"), WALL(2, "#"), EMPTY(3, "."), STOP(4, "X"), MOVE_UP(11, "^"), MOVE_DOWN(12, "v"), MOVE_LEFT(13, "<"), MOVE_RIGHT(14, ">"), NULL(-1, "");
 	
 	int code;
 	String key;

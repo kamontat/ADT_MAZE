@@ -2,6 +2,8 @@ package com.kamontat;
 
 import java.util.*;
 
+import static com.kamontat.Direction.*;
+
 /**
  * @author kamontat
  * @version 1.0
@@ -15,40 +17,41 @@ public class State {
 	
 	static Map map;
 	
-	int direction = 0;
+	Direction direction;
 	Pointer currentPosition; // {row, column}
 	
 	State(Pointer cp) {
 		currentPosition = cp;
 	}
 	
-	private static State walk(Pointer cp, int i) {
+	private static State walk(Pointer cp, Direction dir) {
 		State state = new State(cp.clone());
-		switch (i) {
-			case UP:
+		switch (dir) {
+			case MOVE_UP:
 				state.currentPosition.row--;
 				break;
-			case DOWN:
+			case MOVE_DOWN:
 				state.currentPosition.row++;
 				break;
-			case LEFT:
+			case MOVE_LEFT:
 				state.currentPosition.column--;
 				break;
-			case RIGHT:
+			case MOVE_RIGHT:
 				state.currentPosition.column++;
 				break;
 		}
-		state.direction = i;
+		
+		state.direction = dir;
 		
 		return state;
 	}
 	
-	private boolean validState() {
+	boolean isValidState() {
 		return currentPosition.row > 0 && currentPosition.row < map.row() && currentPosition.column > 0 && currentPosition.column < map.column();
 	}
 	
-	private boolean isOk() {
-		return validState() && map.canWalk(currentPosition);
+	boolean isOk() {
+		return isValidState() && map.canWalk(currentPosition);
 	}
 	
 	public int getId() {
@@ -62,10 +65,10 @@ public class State {
 	List<State> getNextStates() {
 		LinkedList<State> allStates = new LinkedList<>();
 		int a = (int) Math.ceil(Math.random() * 4);
-		allStates.add(State.walk(currentPosition, UP));
-		allStates.add(State.walk(currentPosition, DOWN));
-		allStates.add(State.walk(currentPosition, LEFT));
-		allStates.add(State.walk(currentPosition, RIGHT));
+		allStates.add(State.walk(currentPosition, MOVE_UP));
+		allStates.add(State.walk(currentPosition, MOVE_DOWN));
+		allStates.add(State.walk(currentPosition, MOVE_LEFT));
+		allStates.add(State.walk(currentPosition, MOVE_RIGHT));
 		
 		LinkedList<State> states = new LinkedList<>();
 		for (State s : allStates) {
@@ -78,6 +81,6 @@ public class State {
 	
 	@Override
 	public String toString() {
-		return "State{" + "currentPosition=" + currentPosition + '}';
+		return "State{" + "direction=" + direction + ", currentPosition=" + currentPosition + '}';
 	}
 }

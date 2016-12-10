@@ -16,8 +16,6 @@ public class Graph {
 	
 	@SuppressWarnings("unchecked")
 	public Graph(int v) {
-		
-		validateVertex(v);
 		this.vertex = v;
 		edge = 0;
 		
@@ -68,5 +66,16 @@ public class Graph {
 	private void validateVertex(int v) {
 		if (v < 0 || v >= vertex)
 			throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (vertex - 1));
+	}
+	
+	public void print() {
+		for (int i = 0; i < getVertex(); i++) {
+			ListIterator<Integer> li = iterator(i);
+			if (li.hasNext()) {
+				System.out.print("I: " + i + " -> ");
+				while (li.hasNext()) System.out.print(State.createFromId(li.next()) + ", ");
+				System.out.println();
+			}
+		}
 	}
 }
