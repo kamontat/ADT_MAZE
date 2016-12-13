@@ -55,9 +55,10 @@ public class Main {
 	}
 	
 	private static void readInput() {
+		Scanner input = new Scanner(System.in);
 		try {
-			File file = new File("src/com/testcase/testcase1.txt");
-			Scanner input = new Scanner(file);
+			File file = new File("src/com/testcase/testcase" + input.nextInt() + ".txt");
+			input = new Scanner(file);
 			
 			String[] number = input.nextLine().split(" ");
 			int row = Integer.parseInt(number[0]);

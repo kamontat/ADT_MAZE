@@ -2,9 +2,4 @@
 out/
 Maze.iml
 
-src/com/amp/
-src/com/em/
-src/com/example/
-src/com/test/
-
-src/META-INF/
+src/com/bt/
