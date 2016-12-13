@@ -5,107 +5,59 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Main {
-	private static Graph graph;
+	private static Graph graph = new Graph(4041);
+	private static Map map;
 	
 	private static int[] parents;
+	private static int[] levels;
 	
 	public static void main(String[] args) {
 		progress();
-		
-		//		State temp = new State(State.map.startPoint());
-		//
-		//		while (true) {
-		//			List<State> nss = temp.getNextStates();
-		//			if (nss.size() == 0) break;
-		//
-		//			Pointer currentPosition = nss.get(0).currentPosition;
-		//
-		//			Direction dir = nss.get(0).direction;
-		//
-		//			State.map.walk(temp.currentPosition, dir);
-		//
-		//			temp.currentPosition = currentPosition;
-		//		}
-		//
-		//		State.map.print();
-		//		System.out.println();
 	}
 	
 	private static void progress() {
 		readInput();
-		buildGraph();
-		State startState = new State(State.map.startPoint());
-		State finalState = new State(State.map.stopPoint());
+		breadthFirstSearch(map.start);
+		System.out.println(levels[map.stop]);
 		
-		System.out.println("Start: " + startState.getId());
-		System.out.println("End: " + finalState.getId());
-		System.out.println();
-		
-		breadthFirstSearch(finalState.getId());
-		
-		int v = finalState.getId();
-		
-		Scanner input = new Scanner(System.in);
-		
-		int a = input.nextInt();
-		
-		while (a != -1) {
-			State s = State.createFromId(v);
-			System.out.println(s);
-			System.out.println(v);
-			State.map.walk(s.currentPosition, s.direction);
-			
-			v = parents[v];
-			if (v == -1) {
-				break;
-			}
-			
-			State.map.print();
-			a = input.nextInt();
+		int current = parents[map.stop];
+		int bc = map.stop; // before current
+		while (!map.isStart(current)) {
+			if (current == bc + map.column) map.move(current, MapKey.MOVE_UP);
+			else if (current == bc - map.column) map.move(current, MapKey.MOVE_DOWN);
+			else if (current == bc + 1) map.move(current, MapKey.MOVE_LEFT);
+			else if (current == bc - 1) map.move(current, MapKey.MOVE_RIGHT);
+			bc = current; // update before
+			current = parents[current];
 		}
+		
+		System.out.println(map.toString());
 	}
 	
 	private static void breadthFirstSearch(int s) {
-		List<Integer> nextLevel = new ArrayList<>();
+		List<Integer> nextLevel = new ArrayList<Integer>();
+		levels = new int[graph.getVertex()];
 		parents = new int[graph.getVertex()];
 		
 		for (int u = 0; u < graph.getVertex(); u++) {
+			levels[u] = -1;
 			parents[u] = -1;
 		}
 		
+		levels[s] = 0;
 		nextLevel.add(s);
-		
-		parents[s] = State.createFromId(s).getNextStates().get(0).getId();
 		
 		while (!nextLevel.isEmpty()) {
 			List<Integer> currentLevel = nextLevel;
 			nextLevel = new ArrayList<Integer>();
 			
 			for (int u : currentLevel) {
-				for (int possibleWay : graph.getAdjList(u)) {
-					if (parents[possibleWay] == -1) {
-						parents[possibleWay] = parents[u];
-						parents[u] = possibleWay;
-						//						System.out.println("index: " + u + ", value: " + possibleWay);
-						nextLevel.add(possibleWay);
+				for (int v : graph.getAdjList(u)) {
+					if (levels[v] == -1) {
+						levels[v] = levels[u] + 1;
+						parents[v] = u;
+						nextLevel.add(v);
 					}
-				}
-			}
-		}
-	}
-	
-	private static void buildGraph() {
-		int size = 40405;
-		graph = new Graph(size);
-		for (int i = 0; i < size; i++) {
-			State s = State.createFromId(i);
-			if (s.isValidState() && s.isOk()) {
-				List<State> nextStates = s.getNextStates();
-				for (State ns : nextStates) {
-					System.out.println("index: " + i + ", value: " + ns.getId());
-					// i -> current position
-					// j -> next position
-					graph.addArc(i, ns.getId()/* j */);
 				}
 			}
 		}
@@ -120,17 +72,29 @@ public class Main {
 			int row = Integer.parseInt(number[0]);
 			int column = Integer.parseInt(number[1]);
 			
-			int[][] temp = new int[row][column];
+			MapKey[] temp = new MapKey[row * column];
+			int id = 0;
+			int start = 0, stop = 0;
 			
 			for (int i = 0; i < row; i++) {
-				int j = 0;
 				for (char chr : input.nextLine().toCharArray()) {
-					temp[i][j++] = MapKey.getCode(String.valueOf(chr));
+					temp[id] = MapKey.by(chr) != MapKey.NULL ? MapKey.by(chr): MapKey.WALL;
+					
+					if (temp[id] != MapKey.WALL && temp[id + 1] != MapKey.WALL) {
+						graph.addEdge(id, id + 1);
+					}
+					if (temp[id] != MapKey.WALL && temp[id + column] != MapKey.WALL) {
+						graph.addEdge(id, id + column);
+					}
+					if (temp[id] == MapKey.START) {
+						start = id;
+					} else if (temp[id] == MapKey.STOP) {
+						stop = id;
+					}
+					id++;
 				}
 			}
-			
-			State.map = new Map(temp);
-			
+			map = new Map(temp, row, column, start, stop);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

@@ -6,69 +6,36 @@ package com.kamontat;
  * @since 12/10/2016 AD - 1:37 PM
  */
 class Map {
-	private int[][] map;
+	private MapKey[] map;
+	int start, stop;
+	int row, column;
 	
-	Map(int[][] map) {
+	Map(MapKey[] map, int row, int column, int start, int stop) {
 		this.map = map;
+		this.start = start;
+		this.stop = stop;
+		this.row = row;
+		this.column = column;
 	}
 	
-	Pointer startPoint() {
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[0].length; j++) {
-				if (map[i][j] == MapKey.START.code) return new Pointer(i, j);
-			}
-		}
-		return new Pointer(-1, -1);
+	void move(int currentPosition, MapKey dir) {
+		map[currentPosition] = dir;
 	}
 	
-	Pointer stopPoint() {
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[0].length; j++) {
-				if (map[i][j] == MapKey.STOP.code) return new Pointer(i, j);
+	boolean isStart(int cp) {
+		return cp == start;
+	}
+	
+	@Override
+	public String toString() {
+		String output = "";
+		for (int i = 0; i < row * column; i++) {
+			if (i != 0 && i % column == 0) {
+				output += "\n";
 			}
+			output += map[i].key;
 		}
 		
-		return new Pointer(-1, -1);
-	}
-	
-	boolean isStop(Pointer cp) {
-		return map[cp.row][cp.column] == MapKey.STOP.code;
-	}
-	
-	boolean canWalk(Pointer cp) {
-		return map[cp.row][cp.column] == MapKey.EMPTY.code || map[cp.row][cp.column] == MapKey.STOP.code || map[cp.row][cp.column] == MapKey.START.code;
-	}
-	
-	int row() {
-		return map.length;
-	}
-	
-	int column() {
-		return map[0].length;
-	}
-	
-	void walk(Pointer cp, Direction dir) {
-		if (map[cp.row][cp.column] != MapKey.STOP.code && map[cp.row][cp.column] != MapKey.START.code && dir != Direction.STAND) {
-			System.out.println("MOVE");
-			map[cp.row][cp.column] = dir.code;
-		}
-	}
-	
-	void print() {
-		int i = 0;
-		
-		String a = "   ";
-		for (i = 0; i < column(); i++) {
-			a += String.format("%-3d", i);
-		}
-		i = 0;
-		System.out.println(a);
-		for (int[] m : map) {
-			System.out.print(String.format("%-3d", i++));
-			for (int n : m) {
-				System.out.print(MapKey.getKey(n) + "  ");
-			}
-			System.out.println();
-		}
+		return output;
 	}
 }

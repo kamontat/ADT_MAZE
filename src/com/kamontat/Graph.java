@@ -73,7 +73,7 @@ public class Graph {
 			ListIterator<Integer> li = iterator(i);
 			if (li.hasNext()) {
 				System.out.print("I: " + i + " -> ");
-				while (li.hasNext()) System.out.print(State.createFromId(li.next()) + ", ");
+				while (li.hasNext()) System.out.print(li.next() + ", ");
 				System.out.println();
 			}
 		}
