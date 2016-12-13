@@ -8,7 +8,7 @@ package com.kamontat;
 class Map {
 	private MapKey[] map;
 	int start, stop;
-	int row, column;
+	private int row, column;
 	
 	Map(MapKey[] map, int row, int column, int start, int stop) {
 		this.map = map;
@@ -18,11 +18,32 @@ class Map {
 		this.column = column;
 	}
 	
-	void move(int currentPosition, MapKey dir) {
+	public int getRow() {
+		return row;
+	}
+	
+	public int getColumn() {
+		return column;
+	}
+	
+	void move(int[] parents) {
+		int current = parents[stop];
+		int bc = stop; // before current
+		while (!isStart(current)) {
+			if (current == bc + column) move(current, MapKey.MOVE_UP);
+			else if (current == bc - column) move(current, MapKey.MOVE_DOWN);
+			else if (current == bc + 1) move(current, MapKey.MOVE_LEFT);
+			else if (current == bc - 1) move(current, MapKey.MOVE_RIGHT);
+			bc = current; // update before
+			current = parents[current];
+		}
+	}
+	
+	private void move(int currentPosition, MapKey dir) {
 		map[currentPosition] = dir;
 	}
 	
-	boolean isStart(int cp) {
+	private boolean isStart(int cp) {
 		return cp == start;
 	}
 	

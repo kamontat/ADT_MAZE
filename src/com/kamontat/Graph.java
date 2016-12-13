@@ -15,7 +15,7 @@ public class Graph {
 	private ArrayList<Integer>[] adjList;
 	
 	@SuppressWarnings("unchecked")
-	public Graph(int v) {
+	Graph(int v) {
 		this.vertex = v;
 		edge = 0;
 		
@@ -25,22 +25,22 @@ public class Graph {
 		}
 	}
 	
-	public int getVertex() {
+	int getVertex() {
 		return vertex;
 	}
 	
-	public int getEdge() {
+	int getEdge() {
 		return edge;
 	}
 	
-	public void addArc(int u, int v) {
+	void addArc(int u, int v) {
 		validateVertex(u);
 		validateVertex(v);
 		adjList[u].add(v);
 		edge++;
 	}
 	
-	public void addEdge(int u, int v) {
+	void addEdge(int u, int v) {
 		validateVertex(u);
 		validateVertex(v);
 		adjList[u].add(v);
@@ -48,7 +48,7 @@ public class Graph {
 		edge += 2;
 	}
 	
-	public int degree(int u) {
+	int degree(int u) {
 		validateVertex(u);
 		return adjList[u].size();
 	}
@@ -58,7 +58,7 @@ public class Graph {
 		return adjList[u].listIterator();
 	}
 	
-	public List<Integer> getAdjList(int u) {
+	List<Integer> getAdjList(int u) {
 		validateVertex(u);
 		return adjList[u];
 	}

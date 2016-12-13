@@ -17,21 +17,12 @@ public class Main {
 	
 	private static void progress() {
 		readInput();
+		
 		breadthFirstSearch(map.start);
 		System.out.println(levels[map.stop]);
 		
-		int current = parents[map.stop];
-		int bc = map.stop; // before current
-		while (!map.isStart(current)) {
-			if (current == bc + map.column) map.move(current, MapKey.MOVE_UP);
-			else if (current == bc - map.column) map.move(current, MapKey.MOVE_DOWN);
-			else if (current == bc + 1) map.move(current, MapKey.MOVE_LEFT);
-			else if (current == bc - 1) map.move(current, MapKey.MOVE_RIGHT);
-			bc = current; // update before
-			current = parents[current];
-		}
-		
-		System.out.println(map.toString());
+		map.move(parents);
+		System.out.print(map.toString());
 	}
 	
 	private static void breadthFirstSearch(int s) {
