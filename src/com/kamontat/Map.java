@@ -16,6 +16,16 @@ class Map {
 		this.stop = stop;
 		this.row = row;
 		this.column = column;
+		
+		String error = null;
+		if (start == 0 && stop == 0) {
+			error = "Start Point and End Point";
+		} else if (start == 0) {
+			error = "Start Point";
+		} else if (stop == 0) {
+			error = "End Point";
+		}
+		if (error != null) System.err.println("This map don't have " + error + ", please read other map");
 	}
 	
 	public int getRow() {
@@ -26,7 +36,7 @@ class Map {
 		return column;
 	}
 	
-	void move(int[] parents) {
+	void move(int[] parents) throws Exception {
 		int current = parents[stop];
 		int bc = stop; // before current
 		while (!isStart(current)) {
@@ -45,6 +55,10 @@ class Map {
 	
 	private boolean isStart(int cp) {
 		return cp == start;
+	}
+	
+	boolean isEnable() {
+		return start != 0 && stop != 0;
 	}
 	
 	@Override

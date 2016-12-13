@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Main {
-	private static Graph graph = new Graph(4041);
+	private static Graph graph;
 	private static Map map;
 	
 	private static int[] parents;
@@ -17,12 +17,19 @@ public class Main {
 	
 	private static void progress() {
 		readInput();
-		
-		breadthFirstSearch(map.start);
-		System.out.println(levels[map.stop]);
-		
-		map.move(parents);
-		System.out.print(map.toString());
+		if (map.isEnable()) {
+			breadthFirstSearch(map.start);
+			try {
+				map.move(parents);
+				System.out.println(levels[map.stop]);
+				
+			} catch (Exception e) {
+				if (e instanceof ArrayIndexOutOfBoundsException) {
+					System.err.println("This map don't have solution");
+				}
+			}
+			System.out.print(map.toString());
+		}
 	}
 	
 	private static void breadthFirstSearch(int s) {
@@ -64,6 +71,7 @@ public class Main {
 			int row = Integer.parseInt(number[0]);
 			int column = Integer.parseInt(number[1]);
 			
+			graph = new Graph(row * column + 1);
 			MapKey[] temp = new MapKey[row * column];
 			int id = 0;
 			int start = 0, stop = 0;
@@ -87,6 +95,7 @@ public class Main {
 				}
 			}
 			map = new Map(temp, row, column, start, stop);
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
