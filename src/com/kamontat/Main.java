@@ -63,6 +63,7 @@ public class Main {
 	
 	private static void readInput() {
 		Scanner input = new Scanner(System.in);
+		System.out.print("Enter testcase number(1-5): ");
 		try {
 			File file = new File("src/com/testcase/testcase" + input.nextInt() + ".txt");
 			input = new Scanner(file);
