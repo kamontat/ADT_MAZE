@@ -1,5 +1,5 @@
 .idea/
 out/
-Maze.iml
+*.iml
 
 src/com/bt/

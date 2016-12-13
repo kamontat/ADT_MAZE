@@ -1,4 +1,8 @@
-package com.kamontat;
+package com.kamontat.main;
+
+import com.kamontat.constant.MapKey;
+import com.kamontat.object.Graph;
+import com.kamontat.object.Map;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -1,4 +1,4 @@
-package com.kamontat;
+package com.kamontat.object;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public class Graph {
 	private ArrayList<Integer>[] adjList;
 	
 	@SuppressWarnings("unchecked")
-	Graph(int v) {
+	public Graph(int v) {
 		this.vertex = v;
 		edge = 0;
 		
@@ -25,7 +25,7 @@ public class Graph {
 		}
 	}
 	
-	int getVertex() {
+	public int getVertex() {
 		return vertex;
 	}
 	
@@ -40,7 +40,7 @@ public class Graph {
 		edge++;
 	}
 	
-	void addEdge(int u, int v) {
+	public void addEdge(int u, int v) {
 		validateVertex(u);
 		validateVertex(v);
 		adjList[u].add(v);
@@ -58,7 +58,7 @@ public class Graph {
 		return adjList[u].listIterator();
 	}
 	
-	List<Integer> getAdjList(int u) {
+	public List<Integer> getAdjList(int u) {
 		validateVertex(u);
 		return adjList[u];
 	}

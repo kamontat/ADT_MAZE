@@ -1,16 +1,19 @@
-package com.kamontat;
+package com.kamontat.object;
+
+import com.kamontat.constant.MapKey;
 
 /**
  * @author kamontat
  * @version 1.0
  * @since 12/10/2016 AD - 1:37 PM
  */
-class Map {
+public class Map {
 	private MapKey[] map;
-	int start, stop;
+	public int start;
+	public int stop;
 	private int row, column;
 	
-	Map(MapKey[] map, int row, int column, int start, int stop) {
+	public Map(MapKey[] map, int row, int column, int start, int stop) {
 		this.map = map;
 		this.start = start;
 		this.stop = stop;
@@ -36,7 +39,7 @@ class Map {
 		return column;
 	}
 	
-	void move(int[] parents) throws Exception {
+	public void move(int[] parents) throws Exception {
 		int current = parents[stop];
 		int bc = stop; // before current
 		while (!isStart(current)) {
@@ -57,7 +60,7 @@ class Map {
 		return cp == start;
 	}
 	
-	boolean isEnable() {
+	public boolean isEnable() {
 		return start != 0 && stop != 0;
 	}
 	

@@ -1,4 +1,4 @@
-package com.kamontat;
+package com.kamontat.constant;
 
 /**
  * @author kamontat
@@ -9,14 +9,14 @@ public enum MapKey {
 	START('O'), WALL('#'), EMPTY('.'), STOP('X'), MOVE_UP('^'), MOVE_DOWN('v'), MOVE_LEFT('<'), MOVE_RIGHT('>'), NULL(-1);
 	
 	int code;
-	String key;
+	public String key;
 	
 	private MapKey(int c) {
 		code = c;
 		key = String.valueOf((char) c);
 	}
 	
-	static MapKey by(char c) {
+	public static MapKey by(char c) {
 		for (MapKey k : MapKey.values()) {
 			if (k.key.equals(String.valueOf(c))) {
 				return k;
